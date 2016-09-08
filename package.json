@@ -1,0 +1,23 @@
+{
+  "name": "apollo-cookie-clicker",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "apollo-client": "^0.4.14",
+    "apollo-server": "^0.2.8",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "graphql": "^0.7.0",
+    "graphql-tag": "^0.1.13",
+    "graphql-tools": "^0.6.6",
+    "graphql-typings": "0.0.1-beta-2",
+    "http-proxy-middleware": "^0.17.1",
+    "meteor-node-stubs": "~0.2.0",
+    "react": "^15.3.1",
+    "react-apollo": "^0.5.2",
+    "react-bootstrap": "^0.30.3",
+    "react-dom": "^15.3.1"
+  }
+}
