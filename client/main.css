@@ -10,7 +10,8 @@ body {
   font-family: 'Lato';
   margin: 0;
   padding: 0;
-  color: rgb(24,23,67);
+  color: #F3E5AB;
+  background-color: chocolate;
 }
 
 .App {

@@ -6,12 +6,17 @@ import ApolloClient, { createNetworkInterface } from 'apollo-client';
 
 const client = new ApolloClient();
 
+@graphql(gql`
+  query getCookies {
+    cookies
+  }
+`)
 class App extends Component {
   render() {
     console.log(this.props);
     return (
       <div className="App">
-        <h1>{this.props.data.loading ? 'Opening the jar...' : `You have ${this.props.data.cookies}`}</h1>
+        <h1>{this.props.data.loading ? 'Opening the jar...' : `You have ${this.props.data.cookies} 🍪`}</h1>
         <div className="Cookie">
           <img src="/cookie.png" />
         </div>
@@ -20,10 +25,10 @@ class App extends Component {
   }
 } 
 
-const CookieJar = graphql(gql`
-  query getCookies {
-    cookies
-  }
-`)(App);
+// const CookieJar = graphql(gql`
+//   query getCookies {
+//     cookies
+//   }
+// `)(App);
 
-ReactDOM.render(<ApolloProvider client={client}><CookieJar /></ApolloProvider>, document.getElementById('root'));
+ReactDOM.render(<ApolloProvider client={client}><App /></ApolloProvider>, document.getElementById('root'));
