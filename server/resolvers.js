@@ -6,6 +6,11 @@ const resolvers = {
       return Cookies.find({}).count();
     },
   },
+  Mutation: {
+    addCookie(_, {}, context) {
+      return Cookies.insert({});
+    },
+  },
 };
 
 export default resolvers;
