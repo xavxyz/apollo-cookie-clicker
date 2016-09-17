@@ -10,7 +10,7 @@ const client = new ApolloClient();
   query getCookies {
     cookies
   }
-`)
+`, { options: { pollInterval: 150 } } )
 class Jar extends Component {
   render() {
     return <h1>{this.props.data.loading ? 'Opening the jar...' : `You have ${this.props.data.cookies} 🍪`}</h1>
