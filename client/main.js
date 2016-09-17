@@ -7,29 +7,40 @@ import ApolloClient, { createNetworkInterface } from 'apollo-client';
 const client = new ApolloClient();
 
 @graphql(gql`
-  query getCookies {
-    cookies
-  }
-`, { options: { pollInterval: 150 } } )
-class Jar extends Component {
-  render() {
-    return <h1>{this.props.data.loading ? 'Opening the jar...' : `You have ${this.props.data.cookies} 🍪`}</h1>
-  }
-}
-
-@graphql(gql`
   mutation addCookie {
     addCookie
   }
 `)
 class Cookie extends Component {
   render() {
-    console.log(this.props)
     return (
-      <div className="Cookie" onClick={() => this.props.mutate()}>
+      <div className="Cookie" onClick={ () => { this.props.mutate(); this.props.refetchJar(); } }>
         <img src="/cookie.png" />
       </div>
     );
+  }
+}
+
+/*
+@graphql(gql`
+  query getCookies {
+    cookies
+  }
+`, { options: { pollInterval: 150 } } )
+*/
+@graphql(gql`
+  query getCookies {
+    cookies
+  }
+`)
+class Jar extends Component {
+  render() {
+    return (
+      <div>
+        <h1>{this.props.data.loading ? 'Opening the jar...' : `You have ${this.props.data.cookies} 🍪`}</h1>
+        <Cookie refetchJar={this.props.data.refetch} />
+      </div>)
+
   }
 }
 
@@ -38,7 +49,6 @@ class App extends Component {
     return (
       <div className="App">
         <Jar />
-        <Cookie />
       </div>
     );
   }
