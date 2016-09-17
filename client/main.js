@@ -11,15 +11,34 @@ const client = new ApolloClient();
     cookies
   }
 `)
+class Jar extends Component {
+  render() {
+    return <h1>{this.props.data.loading ? 'Opening the jar...' : `You have ${this.props.data.cookies} 🍪`}</h1>
+  }
+}
+
+@graphql(gql`
+  mutation addCookie {
+    addCookie
+  }
+`)
+class Cookie extends Component {
+  render() {
+    console.log(this.props)
+    return (
+      <div className="Cookie" onClick={() => this.props.mutate()}>
+        <img src="/cookie.png" />
+      </div>
+    );
+  }
+}
+
 class App extends Component {
   render() {
-    console.log(this.props);
     return (
       <div className="App">
-        <h1>{this.props.data.loading ? 'Opening the jar...' : `You have ${this.props.data.cookies} 🍪`}</h1>
-        <div className="Cookie">
-          <img src="/cookie.png" />
-        </div>
+        <Jar />
+        <Cookie />
       </div>
     );
   }
