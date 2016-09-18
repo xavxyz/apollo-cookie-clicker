@@ -28,6 +28,11 @@ class Cookie extends Component {
   }
 `, { options: { pollInterval: 150 } } )
 */
+
+const CookiesCount = ({ loading, cookies }) => (
+  <h1>{ loading ? 'Opening the jar...' : `You have ${ cookies } 🍪` }</h1>
+);
+
 @graphql(gql`
   query getCookies {
     cookies
@@ -35,24 +40,15 @@ class Cookie extends Component {
 `)
 class Jar extends Component {
   render() {
-    return (
-      <div>
-        <h1>{this.props.data.loading ? 'Opening the jar...' : `You have ${this.props.data.cookies} 🍪`}</h1>
-        <Cookie refetchJar={this.props.data.refetch} />
-      </div>)
-
-  }
-}
-
-class App extends Component {
-  render() {
+    const { refetch, loading, cookies } = this.props.data;
     return (
       <div className="App">
-        <Jar />
+        <CookiesCount loading={ loading } cookies={ cookies } />
+        <Cookie refetchJar={ refetch } />
       </div>
     );
   }
-} 
+}
 
 // const CookieJar = graphql(gql`
 //   query getCookies {
@@ -60,4 +56,9 @@ class App extends Component {
 //   }
 // `)(App);
 
-ReactDOM.render(<ApolloProvider client={client}><App /></ApolloProvider>, document.getElementById('root'));
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <Jar />
+  </ApolloProvider>,
+  document.getElementById('root')
+);

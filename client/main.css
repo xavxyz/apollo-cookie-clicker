@@ -11,7 +11,7 @@ body {
   margin: 0;
   padding: 0;
   color: #F3E5AB;
-  background-color: chocolate;
+  background: radial-gradient(circle at center, chocolate, brown);
 }
 
 .App {
@@ -24,4 +24,15 @@ body {
 
 .Cookie {
   cursor: pointer;
+  animation: alive 3s infinite ease-in-out both;
+}
+
+@keyframes alive {
+  0%, 100% {
+    transform: scale(0.8);
+  }
+
+  50% {
+    transform: scale(1);
+  }
 }
