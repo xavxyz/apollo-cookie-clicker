@@ -13,15 +13,16 @@ const graphQLServer = express();
 const executableSchema = makeExecutableSchema({
   typeDefs: Schema,
   resolvers: Resolvers,
-  // connectors: { PostsConnector },
 });
 
+// no mocks
 // addMockFunctionsToSchema({
 //   schema: executableSchema,
 //   mocks: Mocks,
 //   preserveResolvers: true,
 // });
 
+// use of http-proxy-middleware instead of settings cors
 // graphQLServer.use((req, res, next) => {
 //   res.header("Access-Control-Allow-Origin", "*");
 //   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');

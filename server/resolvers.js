@@ -8,7 +8,8 @@ const resolvers = {
   },
   Mutation: {
     addCookie(_, {}, context) {
-      return Cookies.insert({});
+      Cookies.insert({});
+      return Cookies.find({}).count();
     },
   },
 };

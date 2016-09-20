@@ -3,36 +3,55 @@ import ReactDOM from 'react-dom';
 import gql from 'graphql-tag';
 import { graphql, ApolloProvider } from 'react-apollo';
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
+import update from 'react-addons-update';
 
 const client = new ApolloClient();
 
-@graphql(gql`
-  mutation addCookie {
-    addCookie
-  }
-`)
 class Cookie extends Component {
   render() {
     return (
-      <div className="Cookie" onClick={ () => { this.props.mutate(); this.props.refetchJar(); } }>
+      <div className="Cookie" onClick={ () => { this.props.addOne(); } }>
         <img src="/cookie.png" />
       </div>
     );
   }
 }
 
-/*
+const CookiesCount = ({ loading, cookies }) => {
+  return (
+    <h1>{ loading ? 'Opening the jar...' : `You have ${ cookies } 🍪` }</h1>
+  );
+};
+
+// this is hell-over-engineered ⚗
 @graphql(gql`
-  query getCookies {
-    cookies
+  mutation addCookie {
+    addCookie
   }
-`, { options: { pollInterval: 150 } } )
-*/
-
-const CookiesCount = ({ loading, cookies }) => (
-  <h1>{ loading ? 'Opening the jar...' : `You have ${ cookies } 🍪` }</h1>
-);
-
+`, {
+  props({ ownProps, mutate }) {
+    return {
+      addOne() {
+        const prevCount = client.store.getState().apollo.data.ROOT_QUERY.cookies; // lol
+        return mutate({
+          variables: {},
+          optimisticResponse: {
+            __typename: 'Mutation',
+            addCookie: prevCount + 1,
+          },
+          updateQueries: {
+            getCookies: (prev, { mutationResult }) => {
+              const newCount = mutationResult.data.addCookie;
+              return update(prev, {
+                cookies: { $set: newCount }
+              });
+            },
+          },
+        });
+      },
+    };
+  },
+})
 @graphql(gql`
   query getCookies {
     cookies
@@ -40,21 +59,15 @@ const CookiesCount = ({ loading, cookies }) => (
 `)
 class Jar extends Component {
   render() {
-    const { refetch, loading, cookies } = this.props.data;
+    const { loading, cookies } = this.props.data;
     return (
       <div className="App">
         <CookiesCount loading={ loading } cookies={ cookies } />
-        <Cookie refetchJar={ refetch } />
+        <Cookie addOne={ this.props.addOne } />
       </div>
     );
   }
 }
-
-// const CookieJar = graphql(gql`
-//   query getCookies {
-//     cookies
-//   }
-// `)(App);
 
 ReactDOM.render(
   <ApolloProvider client={client}>

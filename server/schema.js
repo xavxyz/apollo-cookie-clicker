@@ -3,6 +3,6 @@ type Query {
   cookies: Int
 }
 type Mutation {
-  addCookie: String
+  addCookie: Int
 }
 `];
