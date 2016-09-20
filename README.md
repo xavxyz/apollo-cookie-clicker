@@ -10,4 +10,4 @@ npm install
 meteor
 ```
 
-![🍪](https://raw.githubusercontent.com/xavcz/apollo-cookie-clicker/8b873ac313c4cd7f04bd0871bb6f7a0b17bc9b45/public/cookie.png)
+![🍪](http://i.giphy.com/3oz8xvTR4iQpK2hua4.gif)
