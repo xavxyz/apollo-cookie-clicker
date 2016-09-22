@@ -5,7 +5,7 @@ import Resolvers from './resolvers.js'
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
 import bodyParser from 'body-parser';
-import proxyMiddleware from 'http-proxy-middleware';
+import { WebApp } from 'meteor/webapp';
 
 const GRAPHQL_PORT = 8080;
 const graphQLServer = express();
@@ -22,7 +22,6 @@ const executableSchema = makeExecutableSchema({
 //   preserveResolvers: true,
 // });
 
-// use of http-proxy-middleware instead of settings cors
 // graphQLServer.use((req, res, next) => {
 //   res.header("Access-Control-Allow-Origin", "*");
 //   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -44,6 +43,5 @@ graphQLServer.listen(GRAPHQL_PORT, () => console.log(
   `GraphQL Server is now running on http://localhost:${GRAPHQL_PORT}/graphql`
 ));
 
-// !!!
-// proxy the connection for meteor so no cors problem \o/
-WebApp.rawConnectHandlers.use(proxyMiddleware(`http://localhost:${GRAPHQL_PORT}/graphql`));
+// bind express server to meteor
+WebApp.rawConnectHandlers.use(graphQLServer);
